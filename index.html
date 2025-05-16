@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techn.Care - Jessica Taylor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<!-- 
+Author: Ricardo Márquez
+GitHub: https://github.com/Ricardo21Josee
+LinkedIn: https://www.linkedin.com/in/ric21marquez
+Instagram: @mar_quez_g
+Threads: @mar_quez_g
+Email: josemarquez21garcia@gmail.com
+-->
+
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>Techn.Care</span>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active"><a href="#"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+                    <li><a href="#"><i class="fas fa-user-friends"></i> <span>Patients</span></a></li>
+                    <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Appointments</span></a></li>
+                    <li><a href="#"><i class="fas fa-file-medical"></i> <span>Reports</span></a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search patient, diagnosis...">
+                </div>
+                <div class="user-info">
+                    <div class="user-notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="user-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Doctor Avatar">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Patient Profile Section -->
+            <section class="patient-section">
+                <div class="section-header">
+                    <h1>Patient Overview</h1>
+                    <div class="section-actions">
+                        <button class="btn btn-outline">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i> New Entry
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Patient Card -->
+                <div class="patient-card">
+                    <div class="patient-basic-info">
+                        <div class="patient-avatar">
+                            <img id="patient-avatar-img" src="https://fedskillstest.ct.digital/4.png" alt="Jessica Taylor">
+                            <div class="patient-status online"></div>
+                        </div>
+                        <div class="patient-details">
+                            <h2 id="patient-name">Jessica Taylor</h2>
+                            <div class="patient-meta">
+                                <span><i class="fas fa-id-card"></i> ID: <span id="patient-id">PT-960823</span></span>
+                                <span><i class="fas fa-birthday-cake"></i> <span id="patient-dob">August 23, 1996</span></span>
+                                <span><i class="fas fa-venus"></i> <span id="patient-gender">Female</span>, <span id="patient-age">28</span> yrs</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="patient-contact-info">
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <small>Contact</small>
+                                <p id="patient-phone">(415) 555-1234</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                <small>Emergency</small>
+                                <p id="patient-emergency-contact">(415) 555-5678</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <small>Insurance</small>
+                                <p id="patient-insurance">Sunrise Health Assurance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Health Data Section -->
+                <div class="health-data-section">
+                    <!-- Blood Pressure Chart -->
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3><i class="fas fa-heartbeat"></i> Blood Pressure History</h3>
+                                <div class="chart-controls">
+                                    <select id="timeRange" class="chart-select">
+                                        <option value="yearly">Yearly</option>
+                                        <option value="monthly" selected>Monthly</option>
+                                        <option value="weekly">Weekly</option>
+                                    </select>
+                            <button id="exportChart" class="btn btn-icon">
+                                <i class="fas fa-download"></i>
+                            </button>
+                                </div>
+                        </div>
+                            <div class="chart-wrapper">
+                                <canvas id="bloodPressureChart"></canvas>
+                            </div>
+                                <div class="chart-summary">
+                                    <div class="summary-item">
+                                        <span class="summary-label">Average Systolic:</span>
+                                        <span class="summary-value" id="avgSystolic">--</span>
+                                    </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">Average Diastolic:</span>
+                                    <span class="summary-value" id="avgDiastolic">--</span>
+                                </div>
+                                    <div class="summary-item">
+                                        <span class="summary-label">Last Reading:</span>
+                                        <span class="summary-value" id="lastReading">--</span>
+                                    </div>
+                                </div>
+                    </div>
+
+                    <!-- Current Health Status -->
+                    <div class="current-health-status">
+                        <h3><i class="fas fa-chart-line"></i> Current Health Status</h3>
+                        <div class="health-stats">
+                            <div class="stat-card">
+                                <div class="stat-value">
+                                    <span id="current-systolic">160</span>/<span id="current-diastolic">78</span>
+                                    <small>mmHg</small>
+                                </div>
+                                <div class="stat-title">Blood Pressure</div>
+                                <div class="stat-status status-warning">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span id="bp-status">High</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">
+                                    <span id="current-heart-rate">78</span>
+                                    <small>bpm</small>
+                                </div>
+                                <div class="stat-title">Heart Rate</div>
+                                <div class="stat-status status-normal">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span id="hr-status">Normal</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">
+                                    <span id="current-temperature">98.6</span>
+                                    <small>°F</small>
+                                </div>
+                                <div class="stat-title">Temperature</div>
+                                <div class="stat-status status-normal">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Normal</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diagnosis Section -->
+                <div class="diagnosis-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-clipboard-list"></i> Active Diagnoses</h3>
+                        <button class="btn btn-text">
+                            View All <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div id="diagnoses-container" class="diagnoses-grid">
+                        <!-- Diagnoses will be inserted here by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Lab Results -->
+                <div class="lab-results-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-flask"></i> Lab Results</h3>
+                        <button class="btn btn-text">
+                            View All <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="lab-results-grid">
+                        <div class="lab-item">
+                            <i class="fas fa-tint"></i>
+                            <span>Blood Tests</span>
+                        </div>
+                        <div class="lab-item">
+                            <i class="fas fa-procedures"></i>
+                            <span>CT Scans</span>
+                        </div>
+                        <div class="lab-item">
+                            <i class="fas fa-file-medical-alt"></i>
+                            <span>Radiology Reports</span>
+                        </div>
+                        <div class="lab-item">
+                            <i class="fas fa-x-ray"></i>
+                            <span>X-Rays</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/js.js"></script>
+</body>
+</html>
