@@ -1,27 +1,31 @@
+<!-- 
+    Medical Clinic Dashboard
+    Dashboard de Clínica Médica
+    Author / Autor: Ricardo Márquez
+    GitHub: https://github.com/Ricardo21Josee
+    LinkedIn: https://www.linkedin.com/in/ric21marquez
+    Instagram: @mar_quez_g
+    Threads: @mar_quez_g
+    Email: josemarquez21garcia@gmail.com
+-->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Techn.Care - Jessica Taylor</title>
+    <!-- Iconos y fuentes externas / External icons and fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style/style.css">
+    <!-- Librería para gráficos / Chart library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<!-- 
-Author: Ricardo Márquez
-GitHub: https://github.com/Ricardo21Josee
-LinkedIn: https://www.linkedin.com/in/ric21marquez
-Instagram: @mar_quez_g
-Threads: @mar_quez_g
-Email: josemarquez21garcia@gmail.com
--->
-
 <body>
     <div class="dashboard">
-        <!-- Sidebar -->
+        <!-- Barra lateral de navegación / Sidebar navigation -->
         <aside class="sidebar">
             <div class="logo">
                 <i class="fas fa-heartbeat"></i>
@@ -29,6 +33,7 @@ Email: josemarquez21garcia@gmail.com
             </div>
             <nav>
                 <ul>
+                    <!-- Menú lateral / Sidebar menu -->
                     <li class="active"><a href="#"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
                     <li><a href="#"><i class="fas fa-user-friends"></i> <span>Patients</span></a></li>
                     <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Appointments</span></a></li>
@@ -38,8 +43,9 @@ Email: josemarquez21garcia@gmail.com
             </nav>
         </aside>
 
-        <!-- Main Content -->
+        <!-- Contenido principal / Main content -->
         <main class="main-content">
+            <!-- Encabezado superior / Top header -->
             <header class="header">
                 <div class="search-bar">
                     <i class="fas fa-search"></i>
@@ -56,7 +62,7 @@ Email: josemarquez21garcia@gmail.com
                 </div>
             </header>
 
-            <!-- Patient Profile Section -->
+            <!-- Sección de perfil del paciente / Patient profile section -->
             <section class="patient-section">
                 <div class="section-header">
                     <h1>Patient Overview</h1>
@@ -70,7 +76,7 @@ Email: josemarquez21garcia@gmail.com
                     </div>
                 </div>
 
-                <!-- Patient Card -->
+                <!-- Tarjeta de información del paciente / Patient card -->
                 <div class="patient-card">
                     <div class="patient-basic-info">
                         <div class="patient-avatar">
@@ -87,6 +93,7 @@ Email: josemarquez21garcia@gmail.com
                         </div>
                     </div>
 
+                    <!-- Información de contacto del paciente / Patient contact info -->
                     <div class="patient-contact-info">
                         <div class="info-item">
                             <i class="fas fa-phone"></i>
@@ -112,9 +119,9 @@ Email: josemarquez21garcia@gmail.com
                     </div>
                 </div>
 
-                <!-- Health Data Section -->
+                <!-- Sección de datos de salud / Health data section -->
                 <div class="health-data-section">
-                    <!-- Blood Pressure Chart -->
+                    <!-- Gráfico de presión arterial / Blood pressure chart -->
                     <div class="chart-container">
                         <div class="chart-header">
                             <h3><i class="fas fa-heartbeat"></i> Blood Pressure History</h3>
@@ -148,10 +155,11 @@ Email: josemarquez21garcia@gmail.com
                                 </div>
                     </div>
 
-                    <!-- Current Health Status -->
+                    <!-- Estado de salud actual / Current health status -->
                     <div class="current-health-status">
                         <h3><i class="fas fa-chart-line"></i> Current Health Status</h3>
                         <div class="health-stats">
+                            <!-- Tarjeta de presión arterial / Blood pressure card -->
                             <div class="stat-card">
                                 <div class="stat-value">
                                     <span id="current-systolic">160</span>/<span id="current-diastolic">78</span>
@@ -163,6 +171,7 @@ Email: josemarquez21garcia@gmail.com
                                     <span id="bp-status">High</span>
                                 </div>
                             </div>
+                            <!-- Tarjeta de ritmo cardíaco / Heart rate card -->
                             <div class="stat-card">
                                 <div class="stat-value">
                                     <span id="current-heart-rate">78</span>
@@ -174,6 +183,7 @@ Email: josemarquez21garcia@gmail.com
                                     <span id="hr-status">Normal</span>
                                 </div>
                             </div>
+                            <!-- Tarjeta de temperatura / Temperature card -->
                             <div class="stat-card">
                                 <div class="stat-value">
                                     <span id="current-temperature">98.6</span>
@@ -189,7 +199,7 @@ Email: josemarquez21garcia@gmail.com
                     </div>
                 </div>
 
-                <!-- Diagnosis Section -->
+                <!-- Sección de diagnósticos activos / Active diagnoses section -->
                 <div class="diagnosis-section">
                     <div class="section-header">
                         <h3><i class="fas fa-clipboard-list"></i> Active Diagnoses</h3>
@@ -198,11 +208,11 @@ Email: josemarquez21garcia@gmail.com
                         </button>
                     </div>
                     <div id="diagnoses-container" class="diagnoses-grid">
-                        <!-- Diagnoses will be inserted here by JavaScript -->
+                        <!-- Los diagnósticos se insertan aquí con JavaScript / Diagnoses will be inserted here by JavaScript -->
                     </div>
                 </div>
 
-                <!-- Lab Results -->
+                <!-- Resultados de laboratorio / Lab results section -->
                 <div class="lab-results-section">
                     <div class="section-header">
                         <h3><i class="fas fa-flask"></i> Lab Results</h3>
@@ -233,6 +243,7 @@ Email: josemarquez21garcia@gmail.com
         </main>
     </div>
 
+    <!-- Script principal de la página / Main page script -->
     <script src="/js.js"></script>
 </body>
 </html>

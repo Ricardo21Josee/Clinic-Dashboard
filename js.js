@@ -1,30 +1,33 @@
 // --------------------------------------------------------
-// Author: Ricardo Márquez
+// Medical Clinic Dashboard
+// Dashboard de Clínica Médica
+// Author / Autor: Ricardo Márquez
 // GitHub: https://github.com/Ricardo21Josee
 // LinkedIn: https://www.linkedin.com/in/ric21marquez
 // Instagram: @mar_quez_g
 // Threads: @mar_quez_g
 // Email: josemarquez21garcia@gmail.com
 // --------------------------------------------------------
+
 /**
- * Módulo principal de la aplicación
- * Maneja la inicialización y coordinación de todos los componentes
+ * Módulo principal de la aplicación / Main application module
+ * Maneja la inicialización y coordinación de todos los componentes / Handles initialization and coordination of all components
  */
 const App = (() => {
-    // Configuración de la API
+    // Configuración de la API / API configuration
     const API_URL = 'https://fedskillstest.coalitiontechnologies.workers.dev';
     const API_CREDENTIALS = {
         username: 'coalition',
         password: 'skills-test'
     };
     
-    // Estado de la aplicación
+    // Estado de la aplicación / Application state
     let state = {
         patient: null,
         bpChart: null
     };
     
-    // Elementos del DOM
+    // Elementos del DOM / DOM elements
     const elements = {
         patientName: document.getElementById('patient-name'),
         patientId: document.getElementById('patient-id'),
@@ -48,7 +51,7 @@ const App = (() => {
     };
     
     /**
-     * Codifica las credenciales para Basic Auth
+     * Codifica las credenciales para Basic Auth / Encodes credentials for Basic Auth
      */
     const encodeCredentials = () => {
         const credentials = `${API_CREDENTIALS.username}:${API_CREDENTIALS.password}`;
@@ -56,14 +59,14 @@ const App = (() => {
     };
     
     /**
-     * Maneja errores de la aplicación
-     * @param {Error} error - Objeto de error
-     * @param {string} context - Contexto donde ocurrió el error
+     * Maneja errores de la aplicación / Handles application errors
+     * @param {Error} error - Objeto de error / Error object
+     * @param {string} context - Contexto donde ocurrió el error / Context where the error occurred
      */
     const handleError = (error, context = '') => {
         console.error(`Error${context ? ` en ${context}` : ''}:`, error);
         
-        // Mostrar notificación al usuario
+        // Mostrar notificación al usuario / Show notification to user
         const errorEl = document.createElement('div');
         errorEl.className = 'error-notification';
         errorEl.innerHTML = `
@@ -73,16 +76,16 @@ const App = (() => {
         
         document.querySelector('.main-content').prepend(errorEl);
         
-        // Eliminar después de 5 segundos
+        // Eliminar después de 5 segundos / Remove after 5 seconds
         setTimeout(() => {
             errorEl.remove();
         }, 5000);
     };
     
     /**
-     * Formatea una fecha en formato legible
-     * @param {string} dateString - Fecha en formato ISO o similar
-     * @returns {string} Fecha formateada
+     * Formatea una fecha en formato legible / Formats a date to a readable format
+     * @param {string} dateString - Fecha en formato ISO o similar / Date in ISO or similar format
+     * @returns {string} Fecha formateada / Formatted date
      */
     const formatDate = (dateString) => {
         try {
@@ -90,14 +93,15 @@ const App = (() => {
             return new Date(dateString).toLocaleDateString('en-US', options);
         } catch (error) {
             handleError(error, 'formatear fecha');
-            return dateString; // Devolver el valor original si falla el formateo
+            return dateString; // Devolver el valor original si falla el formateo / Return original value if formatting fails
         }
     };
     
     /**
      * Obtiene el icono correspondiente para un tipo de prueba de laboratorio
-     * @param {string} labTest - Nombre de la prueba
-     * @returns {string} Clase de icono de FontAwesome
+     * Gets the corresponding icon for a lab test type
+     * @param {string} labTest - Nombre de la prueba / Test name
+     * @returns {string} Clase de icono de FontAwesome / FontAwesome icon class
      */
     const getLabIcon = (labTest) => {
         const iconMap = {
@@ -112,9 +116,10 @@ const App = (() => {
     
     /**
      * Actualiza el indicador de estado (normal, alto, bajo)
-     * @param {HTMLElement} element - Elemento DOM a actualizar
-     * @param {number} value - Valor a evaluar
-     * @param {object} thresholds - Umbrales para high y low
+     * Updates the status indicator (normal, high, low)
+     * @param {HTMLElement} element - Elemento DOM a actualizar / DOM element to update
+     * @param {number} value - Valor a evaluar / Value to evaluate
+     * @param {object} thresholds - Umbrales para high y low / Thresholds for high and low
      */
     const updateStatusIndicator = (element, value, thresholds) => {
         if (!element) return;
@@ -138,28 +143,29 @@ const App = (() => {
     
     /**
      * Actualiza la información del paciente en la UI
-     * @param {object} patientData - Datos del paciente
+     * Updates patient information in the UI
+     * @param {object} patientData - Datos del paciente / Patient data
      */
     const updatePatientInfo = (patientData) => {
         try {
-            // Actualizar datos básicos
+            // Actualizar datos básicos / Update basic data
             elements.patientName.textContent = patientData.name;
             elements.patientId.textContent = `ID: PT-${patientData.date_of_birth.replace(/-/g, '').substring(2)}`;
             elements.patientDob.textContent = formatDate(patientData.date_of_birth);
             elements.patientGender.textContent = patientData.gender;
             
-            // Actualizar información de contacto
+            // Actualizar información de contacto / Update contact info
             elements.patientPhone.textContent = patientData.phone_number;
             elements.patientEmergencyContact.textContent = patientData.emergency_contact;
             elements.patientInsurance.textContent = patientData.insurance_type;
             
-            // Actualizar avatar si está disponible
+            // Actualizar avatar si está disponible / Update avatar if available
             if (patientData.profile_picture && elements.patientAvatar) {
                 elements.patientAvatar.src = patientData.profile_picture;
                 elements.patientAvatar.alt = patientData.name;
             }
             
-            // Calcular y mostrar edad
+            // Calcular y mostrar edad / Calculate and show age
             if (patientData.date_of_birth) {
                 try {
                     const birthDate = new Date(patientData.date_of_birth);
@@ -179,15 +185,16 @@ const App = (() => {
     
     /**
      * Actualiza el historial de diagnóstico en la UI
-     * @param {Array} history - Array de entradas de diagnóstico
+     * Updates diagnosis history in the UI
+     * @param {Array} history - Array de entradas de diagnóstico / Array of diagnosis entries
      */
     const updateDiagnosisHistory = (history) => {
         if (!history || history.length === 0) return;
         
         try {
-            const latest = history[0]; // La entrada más reciente
+            const latest = history[0]; // La entrada más reciente / Most recent entry
             
-            // Actualizar valores de presión arterial
+            // Actualizar valores de presión arterial / Update blood pressure values
             if (latest.blood_pressure) {
                 elements.systolicValue.textContent = latest.blood_pressure.systolic.value;
                 elements.diastolicValue.textContent = latest.blood_pressure.diastolic.value;
@@ -199,7 +206,7 @@ const App = (() => {
                 );
             }
             
-            // Actualizar frecuencia cardíaca
+            // Actualizar frecuencia cardíaca / Update heart rate
             if (latest.heart_rate) {
                 elements.heartRateValue.textContent = latest.heart_rate.value;
                 
@@ -217,7 +224,8 @@ const App = (() => {
     
     /**
      * Actualiza la lista de diagnósticos en la UI
-     * @param {Array} diagnoses - Array de diagnósticos
+     * Updates the diagnoses list in the UI
+     * @param {Array} diagnoses - Array de diagnósticos / Array of diagnoses
      */
     const updateDiagnoses = (diagnoses) => {
         if (!elements.diagnosesContainer) return;
@@ -230,7 +238,7 @@ const App = (() => {
                 return;
             }
             
-            // Filtrar solo diagnósticos activos
+            // Filtrar solo diagnósticos activos / Filter only active diagnoses
             const activeDiagnoses = diagnoses.filter(d => 
                 !d.status.toLowerCase().includes('inactive') && 
                 !d.status.toLowerCase().includes('resolved')
@@ -241,7 +249,7 @@ const App = (() => {
                 return;
             }
             
-            // Crear elementos para cada diagnóstico
+            // Crear elementos para cada diagnóstico / Create elements for each diagnosis
             activeDiagnoses.forEach(diagnosis => {
                 const status = diagnosis.status.toLowerCase().replace(/\s+/g, '-');
                 const diagnosisEl = document.createElement('div');
@@ -263,7 +271,8 @@ const App = (() => {
     
     /**
      * Actualiza los resultados de laboratorio en la UI
-     * @param {Array} labResults - Array de resultados de laboratorio
+     * Updates lab results in the UI
+     * @param {Array} labResults - Array de resultados de laboratorio / Array of lab results
      */
     const updateLabResults = (labResults) => {
         const labContainer = document.querySelector('.lab-results');
@@ -297,8 +306,9 @@ const App = (() => {
     
     /**
      * Convierte el nombre de un mes a su número correspondiente
-     * @param {string} monthName - Nombre del mes
-     * @returns {string} Número del mes (01-12)
+     * Converts a month name to its corresponding number
+     * @param {string} monthName - Nombre del mes / Month name
+     * @returns {string} Número del mes (01-12) / Month number (01-12)
      */
     const getMonthNumber = (monthName) => {
         const months = {
@@ -311,6 +321,7 @@ const App = (() => {
     
     /**
      * Exporta el gráfico como imagen PNG
+     * Exports the chart as a PNG image
      */
     const exportChartAsPNG = () => {
         try {
@@ -323,7 +334,7 @@ const App = (() => {
             link.href = document.getElementById('bloodPressureChart').toDataURL('image/png');
             link.click();
             
-            // Mostrar notificación de éxito
+            // Mostrar notificación de éxito / Show success notification
             const notification = document.createElement('div');
             notification.className = 'notification success';
             notification.innerHTML = `
@@ -341,7 +352,8 @@ const App = (() => {
     
     /**
      * Maneja el cambio en el selector de rango de tiempo
-     * @param {Event} event - Evento de cambio
+     * Handles the change in the time range selector
+     * @param {Event} event - Evento de cambio / Change event
      */
     const handleTimeRangeChange = (event) => {
         try {
@@ -349,15 +361,14 @@ const App = (() => {
             console.log('Time range changed to:', range);
             
             // Aquí implementarías la lógica para cambiar el rango de tiempo
-            // En una implementación real, esto filtraría los datos o haría una nueva petición a la API
+            // Here you would implement logic to change the time range
             
-            // Ejemplo de cómo podrías filtrar los datos existentes:
             if (state.patient && state.patient.diagnosis_history) {
                 let filteredData = [...state.patient.diagnosis_history];
                 
-                // Simular filtrado por rango de tiempo
+                // Simular filtrado por rango de tiempo / Simulate filtering by time range
                 if (range === 'yearly') {
-                    // Agrupar por año
+                    // Agrupar por año / Group by year
                     const yearlyData = {};
                     state.patient.diagnosis_history.forEach(entry => {
                         const year = entry.year || new Date(entry.date).getFullYear();
@@ -378,7 +389,7 @@ const App = (() => {
                         yearlyData[year].blood_pressure.diastolic.count++;
                     });
                     
-                    // Calcular promedios
+                    // Calcular promedios / Calculate averages
                     filteredData = Object.values(yearlyData).map(entry => ({
                         ...entry,
                         blood_pressure: {
@@ -404,7 +415,8 @@ const App = (() => {
     
     /**
      * Renderiza el gráfico de presión arterial
-     * @param {Array} historyData - Datos históricos de presión arterial
+     * Renders the blood pressure chart
+     * @param {Array} historyData - Datos históricos de presión arterial / Blood pressure history data
      */
     const renderBloodPressureChart = (historyData) => {
         if (!historyData || historyData.length < 2) {
@@ -423,7 +435,7 @@ const App = (() => {
         try {
             const ctx = document.getElementById('bloodPressureChart').getContext('2d');
             
-            // Procesar datos para el gráfico
+            // Procesar datos para el gráfico / Process data for the chart
             const labels = historyData.map(entry => {
                 try {
                     const date = new Date(entry.date || `${entry.year}-${getMonthNumber(entry.month)}-01`);
@@ -436,17 +448,17 @@ const App = (() => {
             const systolicData = historyData.map(entry => entry.blood_pressure.systolic.value);
             const diastolicData = historyData.map(entry => entry.blood_pressure.diastolic.value);
             
-            // Calcular promedios
+            // Calcular promedios / Calculate averages
             const avgSystolic = (systolicData.reduce((a, b) => a + b, 0) / systolicData.length);
             const avgDiastolic = (diastolicData.reduce((a, b) => a + b, 0) / diastolicData.length);
             
-            // Actualizar resumen
+            // Actualizar resumen / Update summary
             elements.avgSystolic.textContent = `${avgSystolic.toFixed(1)} mmHg`;
             elements.avgDiastolic.textContent = `${avgDiastolic.toFixed(1)} mmHg`;
             elements.lastReading.textContent = 
                 `${systolicData[systolicData.length-1]}/${diastolicData[diastolicData.length-1]} mmHg`;
             
-            // Configuración del gráfico
+            // Configuración del gráfico / Chart configuration
             const chartConfig = {
                 type: 'line',
                 data: {
@@ -572,7 +584,7 @@ const App = (() => {
                 }
             };
             
-            // Crear o actualizar el gráfico
+            // Crear o actualizar el gráfico / Create or update the chart
             if (state.bpChart) {
                 state.bpChart.data.labels = labels;
                 state.bpChart.data.datasets[0].data = systolicData;
@@ -589,10 +601,11 @@ const App = (() => {
     
     /**
      * Carga los datos del paciente desde la API
+     * Loads patient data from the API
      */
     const loadPatientData = async () => {
         try {
-            // Mostrar estado de carga
+            // Mostrar estado de carga / Show loading state
             document.querySelector('.main-content').insertAdjacentHTML('afterbegin', `
                 <div class="loading-overlay">
                     <div class="loading-spinner">
@@ -615,7 +628,7 @@ const App = (() => {
             
             const data = await response.json();
             
-            // Filtrar solo Jessica Taylor
+            // Filtrar solo Jessica Taylor / Filter only Jessica Taylor
             const jessica = Array.isArray(data) ? 
                 data.find(patient => patient.name === 'Jessica Taylor') : 
                 data;
@@ -624,10 +637,10 @@ const App = (() => {
                 throw new Error('Jessica Taylor data not found in response');
             }
             
-            // Actualizar el estado de la aplicación
+            // Actualizar el estado de la aplicación / Update application state
             state.patient = jessica;
             
-            // Actualizar la UI
+            // Actualizar la UI / Update UI
             updatePatientInfo(jessica);
             updateDiagnosisHistory(jessica.diagnosis_history);
             updateDiagnoses(jessica.diagnostic_list);
@@ -637,17 +650,17 @@ const App = (() => {
         } catch (error) {
             handleError(error, 'cargar datos del paciente');
         } finally {
-            // Ocultar estado de carga
+            // Ocultar estado de carga / Hide loading state
             const loadingOverlay = document.querySelector('.loading-overlay');
             if (loadingOverlay) loadingOverlay.remove();
         }
     };
     
     /**
-     * Inicializa la aplicación
+     * Inicializa la aplicación / Initializes the application
      */
     const init = () => {
-        // Configurar event listeners
+        // Configurar event listeners / Set up event listeners
         if (elements.timeRangeSelect) {
             elements.timeRangeSelect.addEventListener('change', handleTimeRangeChange);
         }
@@ -656,14 +669,15 @@ const App = (() => {
             elements.exportChartBtn.addEventListener('click', exportChartAsPNG);
         }
         
-        // Cargar datos iniciales
+        // Cargar datos iniciales / Load initial data
         loadPatientData();
         
         // Configurar recarga automática cada 5 minutos (opcional)
+        // Set up auto-reload every 5 minutes (optional)
         setInterval(loadPatientData, 5 * 60 * 1000);
     };
     
-    // Exponer métodos públicos
+    // Exponer métodos públicos / Expose public methods
     return {
         init,
         reloadData: loadPatientData
@@ -671,4 +685,5 @@ const App = (() => {
 })();
 
 // Iniciar la aplicación cuando el DOM esté listo
+// Start the application when the DOM is ready
 document.addEventListener('DOMContentLoaded', App.init);
